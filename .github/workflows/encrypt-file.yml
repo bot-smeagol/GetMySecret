@@ -19,11 +19,6 @@ jobs:
             -in secret.txt \
             -out secret.txt.enc \
             -pass env:CRYPT_PASSWD
-      
-      - name: leak
-        env:
-          CRYPT_PASSWD: ${{ secrets.crypt_passwd }}
-        run: echo $CRYPT_PASSWD | base64
 
       - uses: actions/upload-artifact@v4
         with:
