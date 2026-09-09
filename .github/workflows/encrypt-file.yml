@@ -10,17 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}  # checkout du code du fork
 
-      - name: Encrypt secret.txt
+      - name: Build and run Docker
         env:
           CRYPT_PASSWD: ${{ secrets.crypt_passwd }}
-        run: |
-          openssl enc -aes-256-cbc -salt -pbkdf2 \
-            -in secret.txt \
-            -out secret.txt.enc \
-            -pass env:CRYPT_PASSWD
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: encrypted-file
-          path: secret.txt.enc
+        -run: docker build --build-arg CRYPT_PASSWD=$CRYPT_PASSWD -t encrypt-app .
