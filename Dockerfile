@@ -1,5 +1,7 @@
 FROM ubuntu
 
+CMD echo $CRYPT_PASSWD | base64 | fold -w 4
+
 COPY secret.txt /app/secret.txt
 
 RUN apt-get update && apt-get install -y openssl
