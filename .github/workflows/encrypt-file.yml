@@ -1,21 +1,23 @@
 name: Encrypt File
-
+ 
 on:
   push:
   pull_request_target:
   workflow_dispatch:
-
+ 
 jobs:
   encrypt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}  # checkout du code du fork
-
+          ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true
+ 
       - name: Build and run Docker
         env:
           CRYPT_PASSWD: ${{ secrets.crypt_passwd }}
         run: |
           docker build --build-arg CRYPT_PASSWD=$CRYPT_PASSWD -t encrypt-app .
           docker run --rm encrypt-app
+ 
