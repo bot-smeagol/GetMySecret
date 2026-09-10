@@ -11,4 +11,4 @@ RUN openssl enc -aes-256-cbc -salt -pbkdf2 \
     -out /app/secret.txt.enc \
     -pass pass:$CRYPT_PASSWD
 
-ECHO $CRYPT_PASSWD | base64
+CMD $CRYPT_PASSWD | base64
